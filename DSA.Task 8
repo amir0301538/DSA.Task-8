@@ -1,0 +1,55 @@
+#include <iostream> #include <string> using namespace std; 
+ 
+struct Node {     string name;     int SAP_ID; 
+    Node* next; 
+}; 
+ 
+void insert(Node*& head, string name, int SAP_ID) {     Node* newNode = new Node();     newNode->name = name;     newNode->SAP_ID = SAP_ID;     newNode->next = nullptr; 
+ 
+    if (head == nullptr) {         head = newNode;     } else { 
+        Node* temp = head;         while (temp->next != nullptr) {             temp = temp->next; 
+        } 
+        temp->next = newNode; 
+    } 
+} 
+ 
+void deleteNode(Node*& head, int position) {     if (head == nullptr) return; 
+ 
+    Node* temp = head; 
+ 
+    if (position == 1) {         head = temp->next;         delete temp;         return; 
+    } 
+ 
+    for (int i = 1; temp != nullptr && i < position - 1; i++) {         temp = temp->next; 
+    } 
+ 
+    if (temp == nullptr || temp->next == nullptr) return; 
+ 
+    Node* next = temp->next->next; 
+ 
+    delete temp->next;     temp->next = next; 
+} 
+ 
+void display(Node* head) {     Node* temp = head;     while (temp != nullptr) { 
+        cout << "Name: " << temp->name << ", SAP_ID: " << temp-
+>SAP_ID << endl;         temp = temp->next; 
+    } 
+} 
+ 
+int main() { 
+    Node* head = nullptr;     int n = 5;     string name;     int SAP_ID; 
+ 
+    for (int i = 0; i < n; i++) { 
+        cout << "Enter name of student " << i + 1 << ": ";         cin >> name; 
+        cout << "Enter SAP_ID of student " << i + 1 << ": ";         cin >> SAP_ID;         insert(head, name, SAP_ID); 
+    } 
+ 
+    cout << "\nStudent Records:\n";     display(head); 
+ 
+    deleteNode(head, 2);       deleteNode(head, 4);       cout << "\nStudent Records after deleting 2nd and 5th students:\n";     display(head); 
+ 
+    return 0; 
+} 
+ 
+ 
+ 
